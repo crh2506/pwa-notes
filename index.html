@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PWA Notes</title>
+  <link rel="manifest" href="manifest.json" />
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      margin: 2rem;
+      background: #f4f4f4;
+      color: #222;
+    }
+    h1 {
+      font-size: 1.75rem;
+    }
+    textarea {
+      width: 100%;
+      height: 60vh;
+      font-size: 1rem;
+      padding: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      resize: vertical;
+    }
+    button {
+      margin-top: 1rem;
+      padding: 0.6rem 1rem;
+      font-size: 1rem;
+      border: none;
+      background-color: #1a73e8;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>📝 Notes</h1>
+  <textarea id="note" placeholder="Start typing..."></textarea><br />
+  <button onclick="saveNote()">💾 Save</button>
+
+  <script>
+    const textarea = document.getElementById('note');
+    const key = 'pwa-note';
+
+    textarea.value = localStorage.getItem(key) || '';
+
+    function saveNote() {
+      localStorage.setItem(key, textarea.value);
+      alert('Note saved!');
+    }
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(reg => console.log('Service Worker registered:', reg.scope))
+        .catch(err => console.warn('Service Worker registration failed:', err));
+    }
+  </script>
+</body>
+</html>
